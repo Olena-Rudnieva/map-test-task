@@ -1,18 +1,28 @@
 import { useJsApiLoader } from '@react-google-maps/api';
 import { Map } from './Map/Map';
 import { Loader } from './Loader/Loader';
-import { Autocomplete } from './Autocomplete/Autocomplete';
 import { useCallback, useState } from 'react';
+import {
+  MapWrapper,
+  ProductsTitle,
+  ProductsWrapper,
+  Wrapper,
+} from './App.styled';
+import { Layout } from './Layout/Layout';
+import { ProductsList } from './ProductsList/ProductsList';
+import { products } from '../utils/data';
+import { Places } from './Places/Places';
+
 const API_KEY = process.env.REACT_APP_API_KEY;
 const defaultCenter = {
-  lat: -3.745,
-  lng: -38.523,
+  lat: 50.5701,
+  lng: 30.5168,
 };
 
 const libraries = ['places'];
 
 export const App = () => {
-  const [center, setCenter] = useState(defaultCenter);
+  const [place, setPlace] = useState(defaultCenter);
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
     googleMapsApiKey: API_KEY,
@@ -20,16 +30,27 @@ export const App = () => {
   });
 
   const onPlaceSelect = useCallback(coordinates => {
-    setCenter(coordinates);
+    setPlace(coordinates);
   }, []);
 
   return (
-    <div>
-      <div>
-        <Autocomplete isLoaded={isLoaded} onSelect={onPlaceSelect} />
-        {/* <button>Markers</button> */}
-      </div>
-      <div>{isLoaded ? <Map center={center} /> : <Loader />}</div>
-    </div>
+    <>
+      {isLoaded ? (
+        <Layout>
+          <Wrapper>
+            <MapWrapper>
+              <Map place={place} />
+            </MapWrapper>
+            <ProductsWrapper>
+              <Places isLoaded={isLoaded} onSelect={onPlaceSelect} />
+              <ProductsTitle>Products</ProductsTitle>
+              <ProductsList products={products} />
+            </ProductsWrapper>
+          </Wrapper>
+        </Layout>
+      ) : (
+        <Loader />
+      )}
+    </>
   );
 };

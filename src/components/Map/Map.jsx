@@ -1,6 +1,7 @@
 import { GoogleMap, Marker } from '@react-google-maps/api';
-import React from 'react';
+import React, { useCallback, useRef } from 'react';
 import { MapWrapper } from './Map.styled';
+import { products } from 'utils/data';
 
 const containerStyle = {
   width: '100%',
@@ -10,17 +11,19 @@ const containerStyle = {
 const defaultOptions = {
   panControl: true,
   zoomControl: true,
+  mapTypeControl: false,
   streetViewControl: false,
+  clickableIcons: false,
 };
 
-export const Map = ({ center }) => {
-  const mapRef = React.useRef(undefined);
+export const Map = ({ place }) => {
+  const mapRef = useRef(undefined);
 
-  const onLoad = React.useCallback(function callback(map) {
+  const onLoad = useCallback(function callback(map) {
     mapRef.current = map;
   }, []);
 
-  const onUnmount = React.useCallback(function callback(map) {
+  const onUnmount = useCallback(function callback(map) {
     mapRef.current = undefined;
   }, []);
 
@@ -28,13 +31,23 @@ export const Map = ({ center }) => {
     <MapWrapper>
       <GoogleMap
         mapContainerStyle={containerStyle}
-        center={center}
-        zoom={10}
+        center={place}
+        zoom={6.5}
         onLoad={onLoad}
         onUnmount={onUnmount}
         options={defaultOptions}
       >
-        <Marker position={center} />
+        {products.map(product => (
+          <Marker
+            key={product.id}
+            map={mapRef.current}
+            position={{
+              lat: product.coordinates.lat,
+              lng: product.coordinates.lng,
+            }}
+            onClick={() => console.log(product)}
+          />
+        ))}
       </GoogleMap>
     </MapWrapper>
   );
