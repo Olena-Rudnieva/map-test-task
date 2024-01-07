@@ -24,7 +24,9 @@ const libraries = ['places'];
 
 export const App = () => {
   const [place, setPlace] = useState(defaultCenter);
+  const [zoomingProducts, setZoomingProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
+
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
     googleMapsApiKey: API_KEY,
@@ -41,17 +43,27 @@ export const App = () => {
         <Layout>
           <Wrapper>
             <MapWrapper>
-              {<Map place={place} setSelectedProduct={setSelectedProduct} />}
+              {
+                <Map
+                  place={place}
+                  setZoomingProducts={setZoomingProducts}
+                  setSelectedProduct={setSelectedProduct}
+                />
+              }
             </MapWrapper>
             <ProductsWrapper>
-              {/* <Places isLoaded={isLoaded} onSelect={onPlaceSelect} /> */}
+              <Places isLoaded={isLoaded} onSelect={onPlaceSelect} />
               <ProductsTitle>Products</ProductsTitle>
               {selectedProduct ? (
                 <ul>
                   <ProductItem product={selectedProduct} />
                 </ul>
               ) : (
-                <ProductsList products={products} />
+                <ProductsList
+                  products={
+                    zoomingProducts.length > 0 ? zoomingProducts : products
+                  }
+                />
               )}
             </ProductsWrapper>
           </Wrapper>

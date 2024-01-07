@@ -1,5 +1,5 @@
 import { GoogleMap, Marker } from '@react-google-maps/api';
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import { MapWrapper } from './Map.styled';
 import { products } from 'utils/data';
 
@@ -16,31 +16,62 @@ const defaultOptions = {
   clickableIcons: false,
 };
 
-export const Map = ({ place, setSelectedProduct }) => {
-  const mapRef = useRef(undefined);
+export const Map = ({ place, setZoomingProducts, setSelectedProduct }) => {
+  const mapRef = useRef(null);
+  const [visibleProducts, setVisibleProducts] = useState([]);
 
-  const onLoad = useCallback(function callback(map) {
-    mapRef.current = map;
-  }, []);
+  const updateVisibleProducts = useCallback(() => {
+    if (mapRef.current) {
+      const bounds = mapRef.current.getBounds();
 
-  const onUnmount = useCallback(function callback(map) {
-    mapRef.current = undefined;
-  }, []);
+      if (bounds) {
+        const filteredProducts = products.filter(product => {
+          return bounds.contains(
+            new window.google.maps.LatLng(
+              product.coordinates.lat,
+              product.coordinates.lng
+            )
+          );
+        });
+
+        setVisibleProducts(filteredProducts);
+        setZoomingProducts(filteredProducts);
+      }
+    }
+  }, [setZoomingProducts]);
+
+  const onLoad = useCallback(
+    function callback(map) {
+      mapRef.current = map;
+      updateVisibleProducts();
+      mapRef.current.addListener('bounds_changed', updateVisibleProducts);
+    },
+    [updateVisibleProducts]
+  );
+
+  const onUnmount = useCallback(
+    function callback(map) {
+      if (mapRef.current) {
+        mapRef.current.removeListener('bounds_changed', updateVisibleProducts);
+      }
+      mapRef.current = undefined;
+    },
+    [updateVisibleProducts]
+  );
 
   return (
     <MapWrapper>
       <GoogleMap
         mapContainerStyle={containerStyle}
         center={place}
-        zoom={6.5}
+        zoom={6}
         onLoad={onLoad}
         onUnmount={onUnmount}
         options={defaultOptions}
       >
-        {products.map(product => (
+        {visibleProducts.map(product => (
           <Marker
             key={product.id}
-            map={mapRef.current}
             position={{
               lat: product.coordinates.lat,
               lng: product.coordinates.lng,
@@ -52,3 +83,5 @@ export const Map = ({ place, setSelectedProduct }) => {
     </MapWrapper>
   );
 };
+
+export default Map;

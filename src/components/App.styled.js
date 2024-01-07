@@ -2,12 +2,9 @@ import styled from 'styled-components';
 
 export const Wrapper = styled.div`
   display: flex;
-  /* height: 100%; */
 `;
 
-export const MapWrapper = styled.div`
-  /* flex: 1; */
-`;
+export const MapWrapper = styled.div``;
 
 export const ProductsWrapper = styled.div`
   display: flex;

@@ -13,19 +13,6 @@ export const products = [
     },
   },
   {
-    id: 9584,
-    year: 2019,
-    make: 'Volvo',
-    model: 'XC90',
-    img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/2018_Volvo_XC90_2.0.jpg/1200px-2018_Volvo_XC90_2.0.jpg',
-    rentalPrice: '$50',
-    address: 'Lviv',
-    coordinates: {
-      lat: 49.839683,
-      lng: 24.029717,
-    },
-  },
-  {
     id: 9587,
     year: 2006,
     make: 'HUMMER',
@@ -51,7 +38,19 @@ export const products = [
       lng: 30.7233095,
     },
   },
-
+  {
+    id: 9584,
+    year: 2019,
+    make: 'Volvo',
+    model: 'XC90',
+    img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/2018_Volvo_XC90_2.0.jpg/1200px-2018_Volvo_XC90_2.0.jpg',
+    rentalPrice: '$50',
+    address: 'Lviv',
+    coordinates: {
+      lat: 49.839683,
+      lng: 24.029717,
+    },
+  },
   {
     id: 9590,
     year: 2016,
