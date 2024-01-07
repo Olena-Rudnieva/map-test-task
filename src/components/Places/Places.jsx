@@ -18,6 +18,7 @@ export const Places = ({ isLoaded, onSelect }) => {
     initOnMount: false,
     debounce: 300,
   });
+
   const ref = useOnclickOutside(() => {
     clearSuggestions();
   });

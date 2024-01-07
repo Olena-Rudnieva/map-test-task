@@ -12,6 +12,7 @@ import { Layout } from './Layout/Layout';
 import { ProductsList } from './ProductsList/ProductsList';
 import { products } from '../utils/data';
 import { Places } from './Places/Places';
+import { ProductItem } from './ProductItem/ProductItem';
 
 const API_KEY = process.env.REACT_APP_API_KEY;
 const defaultCenter = {
@@ -23,6 +24,7 @@ const libraries = ['places'];
 
 export const App = () => {
   const [place, setPlace] = useState(defaultCenter);
+  const [selectedProduct, setSelectedProduct] = useState(null);
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
     googleMapsApiKey: API_KEY,
@@ -39,12 +41,18 @@ export const App = () => {
         <Layout>
           <Wrapper>
             <MapWrapper>
-              <Map place={place} />
+              {<Map place={place} setSelectedProduct={setSelectedProduct} />}
             </MapWrapper>
             <ProductsWrapper>
-              <Places isLoaded={isLoaded} onSelect={onPlaceSelect} />
+              {/* <Places isLoaded={isLoaded} onSelect={onPlaceSelect} /> */}
               <ProductsTitle>Products</ProductsTitle>
-              <ProductsList products={products} />
+              {selectedProduct ? (
+                <ul>
+                  <ProductItem product={selectedProduct} />
+                </ul>
+              ) : (
+                <ProductsList products={products} />
+              )}
             </ProductsWrapper>
           </Wrapper>
         </Layout>

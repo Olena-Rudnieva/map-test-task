@@ -16,7 +16,7 @@ const defaultOptions = {
   clickableIcons: false,
 };
 
-export const Map = ({ place }) => {
+export const Map = ({ place, setSelectedProduct }) => {
   const mapRef = useRef(undefined);
 
   const onLoad = useCallback(function callback(map) {
@@ -45,7 +45,7 @@ export const Map = ({ place }) => {
               lat: product.coordinates.lat,
               lng: product.coordinates.lng,
             }}
-            onClick={() => console.log(product)}
+            onClick={() => setSelectedProduct(product)}
           />
         ))}
       </GoogleMap>
