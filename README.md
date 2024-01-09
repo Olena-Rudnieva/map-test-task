@@ -14,6 +14,7 @@ The website with a map integrating.
 ## Live page
 
 The live page can be accessed through the following link:
+https://olena-rudnieva.github.io/map-test-task/
 
 ## Test Task
 
