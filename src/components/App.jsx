@@ -51,9 +51,6 @@ export const App = () => {
     allProducts();
   }, [productsCollectionRef]);
 
-  console.log('App products', products);
-  console.log('ZoomingProducts', zoomingProducts);
-
   return (
     <>
       {isLoaded ? (
