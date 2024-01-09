@@ -24,17 +24,49 @@ const defaultOptions = {
 };
 
 export const Map = ({ place, setZoomingProducts, setSelectedProduct }) => {
-  const mapRef = useRef(null);
+  const mapRef = useRef(undefined);
   const [products, setProducts] = useState([]);
   const [visibleProducts, setVisibleProducts] = useState([]);
 
   const productsCollectionRef = useMemo(() => collection(db, 'products'), []);
   console.log('Map products', products);
 
+  // useEffect(() => {
+  //   const allProducts = async () => {
+  //     const data = await getDocs(productsCollectionRef);
+  //     setProducts(data.docs.map(doc => ({ ...doc.data(), id: doc.id })));
+  //   };
+  //   allProducts();
+  // }, [productsCollectionRef]);
+
+  // const updateVisibleProducts = useCallback(() => {
+  //   if (mapRef.current) {
+  //     const bounds = mapRef.current.getBounds();
+
+  //     if (bounds) {
+  //       const filteredProducts = products.filter(product => {
+  //         return bounds.contains(
+  //           new window.google.maps.LatLng(
+  //             product.coordinates._lat,
+  //             product.coordinates._long
+  //           )
+  //         );
+  //       });
+  //       console.log(filteredProducts);
+  //       setVisibleProducts(filteredProducts);
+  //       setZoomingProducts(filteredProducts);
+  //     }
+  //   }
+  // }, [setZoomingProducts, products]);
+
   useEffect(() => {
     const allProducts = async () => {
       const data = await getDocs(productsCollectionRef);
-      setProducts(data.docs.map(doc => ({ ...doc.data(), id: doc.id })));
+      const newProducts = data.docs.map(doc => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
+      setProducts(newProducts);
     };
     allProducts();
   }, [productsCollectionRef]);
@@ -52,12 +84,14 @@ export const Map = ({ place, setZoomingProducts, setSelectedProduct }) => {
             )
           );
         });
-        console.log(filteredProducts);
         setVisibleProducts(filteredProducts);
-        setZoomingProducts(filteredProducts);
       }
     }
-  }, [setZoomingProducts, products]);
+  }, [products]);
+
+  useEffect(() => {
+    updateVisibleProducts();
+  }, [place, products, updateVisibleProducts]);
 
   console.log('Visible products', visibleProducts);
 
@@ -90,7 +124,7 @@ export const Map = ({ place, setZoomingProducts, setSelectedProduct }) => {
         onUnmount={onUnmount}
         options={defaultOptions}
       >
-        {visibleProducts.map(product => (
+        {products.map(product => (
           <Marker
             key={product.id}
             position={{
