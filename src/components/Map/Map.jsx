@@ -9,6 +9,7 @@ import React, {
 import { MapWrapper } from './Map.styled';
 import { db } from '../../firebase/config';
 import { collection, getDocs } from 'firebase/firestore';
+// import { products } from 'utils/data';
 
 const containerStyle = {
   width: '100%',
@@ -28,72 +29,36 @@ export const Map = ({ place, setZoomingProducts, setSelectedProduct }) => {
   const [products, setProducts] = useState([]);
   const [visibleProducts, setVisibleProducts] = useState([]);
 
-  const productsCollectionRef = useMemo(() => collection(db, 'products'), []);
-  console.log('Map products', products);
-
-  // useEffect(() => {
-  //   const allProducts = async () => {
-  //     const data = await getDocs(productsCollectionRef);
-  //     setProducts(data.docs.map(doc => ({ ...doc.data(), id: doc.id })));
-  //   };
-  //   allProducts();
-  // }, [productsCollectionRef]);
-
-  // const updateVisibleProducts = useCallback(() => {
-  //   if (mapRef.current) {
-  //     const bounds = mapRef.current.getBounds();
-
-  //     if (bounds) {
-  //       const filteredProducts = products.filter(product => {
-  //         return bounds.contains(
-  //           new window.google.maps.LatLng(
-  //             product.coordinates._lat,
-  //             product.coordinates._long
-  //           )
-  //         );
-  //       });
-  //       console.log(filteredProducts);
-  //       setVisibleProducts(filteredProducts);
-  //       setZoomingProducts(filteredProducts);
-  //     }
-  //   }
-  // }, [setZoomingProducts, products]);
+  const productsCollectionRef = useMemo(() => collection(db, 'products2'), []);
 
   useEffect(() => {
     const allProducts = async () => {
       const data = await getDocs(productsCollectionRef);
-      const newProducts = data.docs.map(doc => ({
-        ...doc.data(),
-        id: doc.id,
-      }));
-      setProducts(newProducts);
+      setProducts(data.docs.map(doc => ({ ...doc.data(), id: doc.id })));
     };
     allProducts();
   }, [productsCollectionRef]);
 
+  console.log('Visible', visibleProducts);
+
   const updateVisibleProducts = useCallback(() => {
+    console.log('My products', products);
+
     if (mapRef.current) {
       const bounds = mapRef.current.getBounds();
 
       if (bounds) {
-        const filteredProducts = products.filter(product => {
-          return bounds.contains(
-            new window.google.maps.LatLng(
-              product.coordinates._lat,
-              product.coordinates._long
-            )
-          );
+        const filteredProducts = products.filter(({ coordinates }) => {
+          const { lat, lng } = coordinates;
+          const productLatLng = new window.google.maps.LatLng(lat, lng);
+          return bounds.contains(productLatLng);
         });
+
         setVisibleProducts(filteredProducts);
+        setZoomingProducts(filteredProducts);
       }
     }
-  }, [products]);
-
-  useEffect(() => {
-    updateVisibleProducts();
-  }, [place, products, updateVisibleProducts]);
-
-  console.log('Visible products', visibleProducts);
+  }, [setZoomingProducts, products]);
 
   const onLoad = useCallback(
     function callback(map) {
@@ -124,12 +89,24 @@ export const Map = ({ place, setZoomingProducts, setSelectedProduct }) => {
         onUnmount={onUnmount}
         options={defaultOptions}
       >
-        {products.map(product => (
+        {/* {visibleProducts.map(product => (
           <Marker
+            map={mapRef.current}
             key={product.id}
             position={{
-              lat: product.coordinates._lat,
-              lng: product.coordinates._long,
+              lat: product.coordinates.lat,
+              lng: product.coordinates.lng,
+            }}
+            onClick={() => setSelectedProduct(product)}
+          />
+        ))} */}
+        {products.map(product => (
+          <Marker
+            map={mapRef.current}
+            key={product.id}
+            position={{
+              lat: product.coordinates.lat,
+              lng: product.coordinates.lng,
             }}
             onClick={() => setSelectedProduct(product)}
           />

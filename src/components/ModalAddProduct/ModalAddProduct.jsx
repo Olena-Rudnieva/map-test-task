@@ -4,9 +4,9 @@ import { ButtonWrapper, Form, Input, Label } from './ModalAddProduct.styled';
 import { useMemo, useState } from 'react';
 import { addDoc, collection } from 'firebase/firestore';
 import { db } from '../../firebase/config';
-import { GeoPoint } from 'firebase/firestore';
 
-const API_KEY = process.env.REACT_APP_API_KEY;
+// const API_KEY = process.env.REACT_APP_API_KEY;
+const API_KEY = 'AIzaSyB4mS4uj8ECVBkeDr2hozHfagX3ucWIBRc';
 
 export const ModalAddProduct = ({ handleModalToggle }) => {
   const [make, setMake] = useState('');
@@ -43,7 +43,7 @@ export const ModalAddProduct = ({ handleModalToggle }) => {
 
   const data = { make, model, year, img: image, rentalPrice, address: place };
 
-  const productsCollectionRef = useMemo(() => collection(db, 'products'), []);
+  const productsCollectionRef = useMemo(() => collection(db, 'products2'), []);
 
   const addProduct = async () => {
     try {
@@ -53,8 +53,15 @@ export const ModalAddProduct = ({ handleModalToggle }) => {
       const geocodingResponse = await fetch(geocodingUrl);
       const geocodingData = await geocodingResponse.json();
       const { lat, lng } = geocodingData.results[0].geometry.location;
-      const coordinates = new GeoPoint(lat, lng);
-      const newData = { ...data, coordinates };
+      const newCoordinates = {
+        lat: lat,
+        lng: lng,
+      };
+
+      const newData = {
+        ...data,
+        coordinates: newCoordinates,
+      };
       await addDoc(productsCollectionRef, newData);
     } catch (error) {
       alert('Помилка при геокодуванні');

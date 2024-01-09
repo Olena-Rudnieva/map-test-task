@@ -1,7 +1,7 @@
 export const products = [
   {
     id: 9582,
-    year: 2008,
+    year: '2008',
     make: 'Buick',
     model: 'Enclave',
     img: 'https://upload.wikimedia.org/wikipedia/commons/6/60/2019_Buick_Enclave_3.6L%2C_front_8.25.19.jpg',
@@ -14,7 +14,7 @@ export const products = [
   },
   {
     id: 9587,
-    year: 2006,
+    year: '2006',
     make: 'HUMMER',
     model: 'H2',
     img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Hummer_H2_%2852891415542%29_%28cropped%29.jpg/1200px-Hummer_H2_%2852891415542%29_%28cropped%29.jpg',
@@ -27,7 +27,7 @@ export const products = [
   },
   {
     id: 9586,
-    year: 2020,
+    year: '2020',
     make: 'Volvo',
     model: 'XC60',
     img: 'https://upload.wikimedia.org/wikipedia/commons/0/0c/2017_Volvo_XC60_Momentum_T5_AWD_Automatic_2.0_Front.jpg',
@@ -40,7 +40,7 @@ export const products = [
   },
   {
     id: 9584,
-    year: 2019,
+    year: '2019',
     make: 'Volvo',
     model: 'XC90',
     img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/2018_Volvo_XC90_2.0.jpg/1200px-2018_Volvo_XC90_2.0.jpg',
@@ -53,7 +53,7 @@ export const products = [
   },
   {
     id: 9590,
-    year: 2016,
+    year: '2016',
     make: 'Subaru',
     model: 'Outback',
     img: 'https://upload.wikimedia.org/wikipedia/commons/4/42/2023_Subaru_Outback_Premium%2C_front_right%2C_09-09-2023.jpg',
@@ -66,7 +66,7 @@ export const products = [
   },
   {
     id: 9591,
-    year: 2010,
+    year: '2010',
     make: 'Mitsubishi',
     model: 'Outlander',
     img: 'https://upload.wikimedia.org/wikipedia/commons/9/99/2022_Mitsubishi_Outlander_SE_S-AWC%2C_07-29-2022.jpg',
