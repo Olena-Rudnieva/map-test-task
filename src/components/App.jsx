@@ -15,8 +15,8 @@ import { ProductItem } from './ProductItem/ProductItem';
 import { db } from '../firebase/config';
 import { collection, getDocs } from 'firebase/firestore';
 
-// const API_KEY = process.env.REACT_APP_API_KEY;
-const API_KEY = 'AIzaSyB4mS4uj8ECVBkeDr2hozHfagX3ucWIBRc';
+const API_KEY = process.env.REACT_APP_API_KEY;
+
 const defaultCenter = {
   lat: 50.5701,
   lng: 30.5168,
