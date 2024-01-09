@@ -1,4 +1,4 @@
-import { Wrapper } from './Places.styled';
+import { Input, Wrapper } from './Places.styled';
 import usePlacesAutocomplete, {
   getGeocode,
   getLatLng,
@@ -60,12 +60,12 @@ export const Places = ({ isLoaded, onSelect }) => {
 
   return (
     <Wrapper ref={ref}>
-      <input
+      <Input
         type="text"
         value={value}
         onChange={handleInput}
         disabled={!ready}
-        placeholder="Where are you going?"
+        placeholder="Яке місто вас цікавить?"
       />
       {status === 'OK' && <ul>{renderSuggestions()}</ul>}
     </Wrapper>

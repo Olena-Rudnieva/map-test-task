@@ -1,7 +1,7 @@
 import { useJsApiLoader } from '@react-google-maps/api';
 import { Map } from './Map/Map';
 import { Loader } from './Loader/Loader';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   MapWrapper,
   ProductsTitle,
@@ -10,9 +10,10 @@ import {
 } from './App.styled';
 import { Layout } from './Layout/Layout';
 import { ProductsList } from './ProductsList/ProductsList';
-import { products } from '../utils/data';
 import { Places } from './Places/Places';
 import { ProductItem } from './ProductItem/ProductItem';
+import { db } from '../firebase/config';
+import { collection, getDocs } from 'firebase/firestore';
 
 const API_KEY = process.env.REACT_APP_API_KEY;
 const defaultCenter = {
@@ -23,6 +24,7 @@ const defaultCenter = {
 const libraries = ['places'];
 
 export const App = () => {
+  const [products, setProducts] = useState([]);
   const [place, setPlace] = useState(defaultCenter);
   const [zoomingProducts, setZoomingProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
@@ -36,6 +38,19 @@ export const App = () => {
   const onPlaceSelect = useCallback(coordinates => {
     setPlace(coordinates);
   }, []);
+
+  const productsCollectionRef = useMemo(() => collection(db, 'products'), []);
+
+  useEffect(() => {
+    const allProducts = async () => {
+      const data = await getDocs(productsCollectionRef);
+      setProducts(data.docs.map(doc => ({ ...doc.data(), id: doc.id })));
+    };
+    allProducts();
+  }, [productsCollectionRef]);
+
+  console.log('App products', products);
+  console.log('ZoomingProducts', zoomingProducts);
 
   return (
     <>
@@ -53,7 +68,7 @@ export const App = () => {
             </MapWrapper>
             <ProductsWrapper>
               <Places isLoaded={isLoaded} onSelect={onPlaceSelect} />
-              <ProductsTitle>Products</ProductsTitle>
+              <ProductsTitle>Пропозиції</ProductsTitle>
               {selectedProduct ? (
                 <ul>
                   <ProductItem product={selectedProduct} />

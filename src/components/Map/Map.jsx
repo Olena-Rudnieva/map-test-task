@@ -1,7 +1,14 @@
 import { GoogleMap, Marker } from '@react-google-maps/api';
-import React, { useCallback, useRef, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { MapWrapper } from './Map.styled';
-import { products } from 'utils/data';
+import { db } from '../../firebase/config';
+import { collection, getDocs } from 'firebase/firestore';
 
 const containerStyle = {
   width: '100%',
@@ -18,7 +25,19 @@ const defaultOptions = {
 
 export const Map = ({ place, setZoomingProducts, setSelectedProduct }) => {
   const mapRef = useRef(null);
+  const [products, setProducts] = useState([]);
   const [visibleProducts, setVisibleProducts] = useState([]);
+
+  const productsCollectionRef = useMemo(() => collection(db, 'products'), []);
+  console.log('Map products', products);
+
+  useEffect(() => {
+    const allProducts = async () => {
+      const data = await getDocs(productsCollectionRef);
+      setProducts(data.docs.map(doc => ({ ...doc.data(), id: doc.id })));
+    };
+    allProducts();
+  }, [productsCollectionRef]);
 
   const updateVisibleProducts = useCallback(() => {
     if (mapRef.current) {
@@ -28,17 +47,19 @@ export const Map = ({ place, setZoomingProducts, setSelectedProduct }) => {
         const filteredProducts = products.filter(product => {
           return bounds.contains(
             new window.google.maps.LatLng(
-              product.coordinates.lat,
-              product.coordinates.lng
+              product.coordinates._lat,
+              product.coordinates._long
             )
           );
         });
-
+        console.log(filteredProducts);
         setVisibleProducts(filteredProducts);
         setZoomingProducts(filteredProducts);
       }
     }
-  }, [setZoomingProducts]);
+  }, [setZoomingProducts, products]);
+
+  console.log('Visible products', visibleProducts);
 
   const onLoad = useCallback(
     function callback(map) {
@@ -64,7 +85,7 @@ export const Map = ({ place, setZoomingProducts, setSelectedProduct }) => {
       <GoogleMap
         mapContainerStyle={containerStyle}
         center={place}
-        zoom={6}
+        zoom={6.3}
         onLoad={onLoad}
         onUnmount={onUnmount}
         options={defaultOptions}
@@ -73,8 +94,8 @@ export const Map = ({ place, setZoomingProducts, setSelectedProduct }) => {
           <Marker
             key={product.id}
             position={{
-              lat: product.coordinates.lat,
-              lng: product.coordinates.lng,
+              lat: product.coordinates._lat,
+              lng: product.coordinates._long,
             }}
             onClick={() => setSelectedProduct(product)}
           />
@@ -83,5 +104,3 @@ export const Map = ({ place, setZoomingProducts, setSelectedProduct }) => {
     </MapWrapper>
   );
 };
-
-export default Map;

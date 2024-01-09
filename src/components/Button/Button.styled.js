@@ -14,6 +14,6 @@ export const ButtonStyle = styled.button`
 
   &:hover,
   &:focus {
-    background: #4a556c;
+    background: var(--accent);
   }
 `;

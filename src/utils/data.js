@@ -6,7 +6,7 @@ export const products = [
     model: 'Enclave',
     img: 'https://upload.wikimedia.org/wikipedia/commons/6/60/2019_Buick_Enclave_3.6L%2C_front_8.25.19.jpg',
     rentalPrice: '$40',
-    address: 'Kiev',
+    address: 'Київ',
     coordinates: {
       lat: 50.4501,
       lng: 30.5234,
@@ -19,7 +19,7 @@ export const products = [
     model: 'H2',
     img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Hummer_H2_%2852891415542%29_%28cropped%29.jpg/1200px-Hummer_H2_%2852891415542%29_%28cropped%29.jpg',
     rentalPrice: '$55',
-    address: 'Kharkiv',
+    address: 'Харків',
     coordinates: {
       lat: 49.9935,
       lng: 36.230383,
@@ -32,7 +32,7 @@ export const products = [
     model: 'XC60',
     img: 'https://upload.wikimedia.org/wikipedia/commons/0/0c/2017_Volvo_XC60_Momentum_T5_AWD_Automatic_2.0_Front.jpg',
     rentalPrice: '$45',
-    address: 'Odessa',
+    address: 'Одеса',
     coordinates: {
       lat: 46.482526,
       lng: 30.7233095,
@@ -45,7 +45,7 @@ export const products = [
     model: 'XC90',
     img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/2018_Volvo_XC90_2.0.jpg/1200px-2018_Volvo_XC90_2.0.jpg',
     rentalPrice: '$50',
-    address: 'Lviv',
+    address: 'Львів',
     coordinates: {
       lat: 49.839683,
       lng: 24.029717,
@@ -58,7 +58,7 @@ export const products = [
     model: 'Outback',
     img: 'https://upload.wikimedia.org/wikipedia/commons/4/42/2023_Subaru_Outback_Premium%2C_front_right%2C_09-09-2023.jpg',
     rentalPrice: '$35',
-    address: 'Kryvyi Rih',
+    address: 'Кривий Ріг',
     coordinates: {
       lat: 47.9097,
       lng: 33.3806,
@@ -71,7 +71,7 @@ export const products = [
     model: 'Outlander',
     img: 'https://upload.wikimedia.org/wikipedia/commons/9/99/2022_Mitsubishi_Outlander_SE_S-AWC%2C_07-29-2022.jpg',
     rentalPrice: '$30',
-    address: 'Dnipro',
+    address: 'Дніпро',
     coordinates: {
       lat: 48.4647,
       lng: 35.0462,
