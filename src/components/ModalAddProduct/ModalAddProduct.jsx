@@ -6,6 +6,7 @@ import { addDoc, collection } from 'firebase/firestore';
 import { db } from '../../firebase/config';
 
 const API_KEY = process.env.API_KEY;
+// const API_KEY = 'AIzaSyB4mS4uj8ECVBkeDr2hozHfagX3ucWIBRc';
 
 export const ModalAddProduct = ({ handleModalToggle }) => {
   const [make, setMake] = useState('');
