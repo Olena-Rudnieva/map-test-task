@@ -5,8 +5,8 @@ import { useMemo, useState } from 'react';
 import { addDoc, collection } from 'firebase/firestore';
 import { db } from '../../firebase/config';
 
-// const API_KEY = process.env.REACT_APP_API_KEY;
-const API_KEY = 'AIzaSyB4mS4uj8ECVBkeDr2hozHfagX3ucWIBRc';
+const API_KEY = process.env.REACT_APP_API_KEY;
+// const API_KEY = 'AIzaSyB4mS4uj8ECVBkeDr2hozHfagX3ucWIBRc';
 
 export const ModalAddProduct = ({ handleModalToggle }) => {
   const [make, setMake] = useState('');
