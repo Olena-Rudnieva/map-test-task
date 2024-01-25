@@ -18,6 +18,9 @@ jobs:
           npm run lint:js
           npm run build
 
+        env:
+          API_KEY: ${{ secrets.API_KEY }}
+
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@4.1.0
         with:
